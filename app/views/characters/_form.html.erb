@@ -1,0 +1,133 @@
+<%= form_for @character, :html => { :class => "form-horizontal character" } do |f| %>
+
+  <% if @character.errors.any? %>
+    <div id="error_expl" class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= pluralize(@character.errors.count, "error") %> prohibited this character from being saved:</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+        <% @character.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+  <div class="form-group">
+    <%= f.label :player, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :player, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:player) %>
+  </div>
+  <div class="form-group">
+    <%= f.label :name, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :name, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:name) %>
+  </div>
+  <div class="form-group">
+    <%= f.label :level, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :level, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:level) %>
+  </div>
+  <div class="form-group">
+    <%= f.label :total_hp, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :total_hp, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:total_hp) %>
+  </div>
+  <div class="form-group">
+    <%= f.label :experience, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :experience, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:experience) %>
+  </div>
+  <div class="form-group">
+    <%= f.label :race_id, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.select :race_id, Race.all.collect {|x| [x.name, x.id]}, {}, class: "form-control race"%>
+    </div>
+    <%=f.error_span(:race_id) %>
+  </div>
+  <div class="form-group">
+    <%= f.label :sub_race_id, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.select :sub_race_id, '', {},:class => 'form-control sub_race'%>
+    </div>
+    <%=f.error_span(:sub_race_id) %>
+  </div>
+  <div class="form-group">
+    <%= f.label :class_job_id, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :class_job_id, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:class_job_id) %>
+  </div>
+  <div class="form-group">
+    <%= f.label :sub_class_job_id, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :sub_class_job_id, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:sub_class_job_id) %>
+  </div>
+  <div class="form-group">
+    <%= f.label :background_id, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :background_id, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:background_id) %>
+  </div>
+
+  <div class="form-group">
+    <div class="col-lg-offset-2 col-lg-10">
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                characters_path, :class => 'btn btn-default' %>
+    </div>
+  </div>
+
+<% end %>
+
+
+<script type='text/javascript'>
+
+    let race, sub_race
+
+    if (!sub_race) sub_race = document.querySelector('.sub_race')
+    if (!race) race = document.querySelector('.race')
+    
+    race.addEventListener('change', (event) => {
+
+        let value = race.value
+        
+        console.log(value)
+        const url = `/characters/by_race/${value}`;
+        let xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = () => {
+                if(xhr.readyState == 4){
+                }
+            }
+
+        xhr.open('GET', url )
+
+        xhr.send()
+    });
+
+    function setRace(input) {
+      console.log(input.value)
+      if (input.value == 'a'){
+        race.removeAttribute("disabled")
+      }else{
+        race.setAttribute("disabled", "true")
+      }
+      console.log(race)
+    };
+    
+</script>

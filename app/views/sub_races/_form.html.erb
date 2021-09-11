@@ -1,0 +1,60 @@
+<%= form_for @sub_race, :html => { :class => "form-horizontal sub_race" } do |f| %>
+
+  <% if @sub_race.errors.any? %>
+    <div id="error_expl" class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= pluralize(@sub_race.errors.count, "error") %> prohibited this sub_race from being saved:</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+        <% @sub_race.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :name, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :name, :class => 'form-control race_name', onchange: 'javascript: setRace(this)' %>
+    </div>
+    <%=f.error_span(:name) %>
+  </div>
+  <div class="form-group">
+    <%= f.label :race_id, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10" >
+      <%= f.select :race_id, Race.all.collect {|x| [x.name, x.id]}, {}, class: "form-control race"%>
+    </div>
+    <%=f.error_span(:race_id) %>
+  </div>
+
+  <div class="form-group">
+    <div class="col-lg-offset-2 col-lg-10">
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                sub_races_path, :class => 'btn btn-default' %>
+    </div>
+  </div>
+
+<% end %>
+
+<script type='text/javascript'>
+
+    let race, race_name
+
+    if (!race_name) race_name = document.querySelector('.race_name')
+    if (!race) race = document.querySelector('.race')
+
+    function setRace(input) {
+      console.log(input.value)
+      if (input.value == 'a'){
+        race.removeAttribute("disabled")
+      }else{
+        race.setAttribute("disabled", "true")
+      }
+      console.log(race)
+    };
+    
+</script>

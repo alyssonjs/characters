@@ -1,0 +1,2 @@
+module SubClassJobsHelper
+end

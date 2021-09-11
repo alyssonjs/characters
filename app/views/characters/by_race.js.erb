@@ -1,0 +1,5 @@
+$('.sub_race').empty();
+$('.sub_race').append( $('<option>Select the Contact</option>'));
+<% @sub_races.each do |sub_race| %>
+  $('.sub_race').append($('<option value="<%= sub_race.id %>"><%= sub_race.name %></option>'));
+<% end %>
